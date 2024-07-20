@@ -1,0 +1,5 @@
+/.seeings/
+/build/
+/target/
+.classpath
+.project
