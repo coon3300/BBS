@@ -9,9 +9,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JSP 게시판 웹사이트</title>
 <!-- Bootstrap CSS 3.3.7 -->
 <link href="css/bootstrap.css" rel="stylesheet">
+<title>JSP 게시판 웹사이트</title>
+<style type="text/css">
+	a, a:hover{
+		color: #000000;
+		text-decoration: none;
+	}
+</style>
 </head>
 <body>
 		<%
@@ -107,9 +113,23 @@
 							ArrayList<Bbs> list = bbsDAO.getList(pageNumber);
 							for(int i = 0; i < list.size(); i++){
 						%>
+						
+
+
+						
 							<tr>
 								<td><%= list.get(i).getBbsID() %></td>
-								<td><a href="view.jsp?bbsID=<%= list.get(i).getBbsID() %>"><%= list.get(i).getBbsTitle() %></a></td>
+								<td><a href="view.jsp?bbsID=<%= list.get(i).getBbsID() %>">
+								<%= list.get(i).getBbsTitle()
+								.replace(" ", "%nbsp")
+								.replace("\t", "%nbsp%nbsp")
+								.replace("\n", "<br>")
+								.replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+                .replace("\"", "&quot;")
+                .replace("'", "&#39;")
+                %></a></td>
 								<td><%= list.get(i).getUserID() %></td>
 								<td><%= list.get(i).getBbsDate().substring(0,11)
 								+ list.get(i).getBbsDate().substring(11,13) + "시"

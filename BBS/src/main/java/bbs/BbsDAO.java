@@ -179,6 +179,7 @@ public class BbsDAO {
         ArrayList<Bbs> list = new ArrayList<>();
         try (PreparedStatement psmt = conn.prepareStatement(SQL)) {
             psmt.setInt(1, getNext() - (pageNumber - 1) * 10);
+            
             try (ResultSet rs = psmt.executeQuery()) {
                 while (rs.next()) {
                     Bbs bbs = new Bbs();
@@ -229,6 +230,29 @@ public class BbsDAO {
             e.printStackTrace();
         }
         return false; // 다음 페이지가 존재하지 않으면 false 반환
-    }    
+    }
+    
+    public Bbs getBbs(int bbsID) {
+        String SQL = "SELECT * FROM BBS WHERE bbsID = ?";
+        try (PreparedStatement psmt = conn.prepareStatement(SQL)) {
+            psmt.setInt(1, bbsID);
+
+            try (ResultSet rs = psmt.executeQuery()) {
+                if (rs.next()) {
+                    Bbs bbs = new Bbs();
+                    bbs.setBbsID(rs.getInt("bbsID"));
+                    bbs.setBbsTitle(rs.getString("bbsTitle"));
+                    bbs.setUserID(rs.getString("userID"));
+                    bbs.setBbsDate(rs.getString("bbsDate"));
+                    bbs.setBbsContent(rs.getString("bbsContent"));
+                    bbs.setBbsAvailable(rs.getInt("bbsAvailable"));
+                    return bbs; // 다음 페이지가 존재하면 true 반환
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null; // 다음 페이지가 존재하지 않으면 false 반환
+    }
     
 }
