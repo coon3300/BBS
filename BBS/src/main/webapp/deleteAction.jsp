@@ -15,6 +15,7 @@ request.setCharacterEncoding("UTF-8");
 <title>JSP 게시판 웹사이트</title>
 <!-- Bootstrap CSS 3.3.7 -->
 <link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/custom.css" rel="stylesheet">
 </head>
 <body>
 	<%
