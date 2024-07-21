@@ -255,4 +255,18 @@ public class BbsDAO {
         return null; // 다음 페이지가 존재하지 않으면 false 반환
     }
     
+    public int update(int bbsID, String bbsTitle, String bbsContent) {
+        String SQL = "UPDATE BBS SET bbsTitle =?, bbsContent = ? WHERE bbsID = ?";
+        try (PreparedStatement psmt = conn.prepareStatement(SQL)) {
+            psmt.setString(1, bbsTitle);
+            psmt.setString(2, bbsContent);
+            psmt.setInt(3, bbsID);
+
+            return psmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1; // 데이터베이스 오류 시 -1 반환
+    }
 }
