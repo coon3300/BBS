@@ -13,17 +13,17 @@ public class UserDAO {
 
     public UserDAO() {
         try {
-//        	// mysql
-//        	Class.forName("com.mysql.jdbc.Driver");
-//			String dbURL = "jdbc:mysql://localhost:3306/BBS";
-//        	String dbID = "root";
-//        	String dbPassword = "root";
+        	// mysql
+        	Class.forName("com.mysql.jdbc.Driver");
+			String dbURL = "jdbc:mysql://localhost:3306/BBS";
+        	String dbID = "root";
+        	String dbPassword = "root";
         	
-        	// oracle
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            String dbURL = "jdbc:oracle:thin:@localhost:1521:xe";
-            String dbID = "bbs";
-            String dbPassword = "bbs";
+//        	// oracle
+//            Class.forName("oracle.jdbc.driver.OracleDriver");
+//            String dbURL = "jdbc:oracle:thin:@localhost:1521:xe";
+//            String dbID = "bbs";
+//            String dbPassword = "bbs";
             
             conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
             System.out.println("DB 접속 성공");
@@ -57,10 +57,11 @@ public class UserDAO {
     }
 
     public int login(String userID, String userPassword) {
-//        String MYSQL_SQL = "SELECT userPassword FROM user WHERE userID = ?";
-        String ORALCE_SQL = "SELECT userPassword FROM tbl_user WHERE userID = ?";
+        String SQL = "SELECT userPassword FROM user WHERE userID = ?";
+//        // 오라클
+//        String SQL = "SELECT userPassword FROM tbl_user WHERE userID = ?";
         try {
-            psmt = conn.prepareStatement(ORALCE_SQL);
+            psmt = conn.prepareStatement(SQL);
             psmt.setString(1, userID);
             rs = psmt.executeQuery();
 
@@ -92,4 +93,24 @@ public class UserDAO {
         }
         return -2; // 데이터베이스 오류
     }
+    
+    public int join(User user) {
+    	String SQL = "INSERT INTO USER VALUES(?, ?, ?, ?, ?)";
+    	
+    	try {
+    		psmt = conn.prepareStatement(SQL);
+    		psmt.setString(1, user.getUserID());
+    		psmt.setString(2, user.getUserPassword());
+    		psmt.setString(3, user.getUserName());
+    		psmt.setString(4, user.getUserGender());
+    		psmt.setString(5, user.getUserEmail());
+    		return psmt.executeUpdate();
+    		
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    	
+    	return -1; // 데이터 베이스 오류
+    }
+    
 }
