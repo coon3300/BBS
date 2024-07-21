@@ -269,4 +269,15 @@ public class BbsDAO {
         }
         return -1; // 데이터베이스 오류 시 -1 반환
     }
+    
+    public int delete(int bbsID) {
+        String SQL = "UPDATE BBS SET bbsAvailable = 0 WHERE bbsID = ?";
+        try (PreparedStatement psmt = conn.prepareStatement(SQL)) {
+            psmt.setInt(1, bbsID);
+            return psmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1; // 데이터베이스 오류 시 -1 반환
+    }
 }
